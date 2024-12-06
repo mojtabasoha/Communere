@@ -1,0 +1,26 @@
+.search {
+  min-width: 400px;
+  padding-left: 15%;
+  position: relative;
+}
+
+.search-input {
+  border: 1px solid #74777f;
+  height: 40px;
+  border-radius: 50px;
+  width: 100%;
+  padding-left: 40px;
+}
+
+.search-input:focus-visible {
+  outline-color: #005cbb;
+}
+
+.search-icon {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin-top: auto;
+  margin-bottom: auto;
+  padding-left: 10px;
+}

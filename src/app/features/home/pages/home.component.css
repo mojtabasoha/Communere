@@ -1,0 +1,18 @@
+.title {
+  text-align: center;
+}
+.search {
+  display: flex;
+  align-items: center;
+}
+
+.search .search-box {
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.loading {
+  text-align: center;
+  line-height: 300px;
+  font-size: 2rem;
+}

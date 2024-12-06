@@ -1,0 +1,17 @@
+<div>
+  <h1 class="title">Medicator</h1>
+  <div class="search">
+    <app-search-box
+      class="search-box"
+      placeholder="Search added medications..."
+      (searchChange)="onSearchChange($event)"
+    ></app-search-box>
+    <button mat-stroked-button (click)="openDialog()">Add medication</button>
+  </div>
+
+  @if (loading) {
+  <p class="loading">Loading...</p>
+  } @else {
+  <app-medication-list [dataSource]="medicationData"></app-medication-list>
+  }
+</div>

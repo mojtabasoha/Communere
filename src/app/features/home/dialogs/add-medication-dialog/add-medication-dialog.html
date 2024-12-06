@@ -1,0 +1,123 @@
+<h2 mat-dialog-title>Add medication</h2>
+<mat-dialog-content>
+  <form
+    [formGroup]="form"
+    class="form"
+    (ngSubmit)="onSubmit()"
+  >
+    <mat-form-field appearance="outline">
+      <mat-label>Medication name</mat-label>
+      <input matInput placeholder="Name..." formControlName="name" required />
+      @if (form.get("name")?.invalid) {
+      <mat-error>
+        @if (form.get('name')?.errors?.['required']) { Medication name is
+        required } @if (form.get('name')?.errors?.['minlength']) { Medication
+        name should be at least 3 characters. }
+      </mat-error>
+      }
+    </mat-form-field>
+
+    <div class="dosage-unit">
+      <mat-form-field appearance="outline" class="dosage">
+        <mat-label>Dosage</mat-label>
+        <input
+          matInput
+          placeholder="Dosage..."
+          formControlName="dosage"
+          type="number"
+          required
+        />
+        @if (form.get("dosage")?.invalid) {
+        <mat-error>
+          @if (form.get('dosage')?.errors?.['required']) { Medication dosage is
+          required } @if (form.get('dosage')?.errors?.['min']) { Medication
+          dosage should be a number greater than zero. }
+        </mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Units</mat-label>
+        <mat-select required formControlName="unit">
+          @for (unit of units; track unit) {
+          <mat-option [value]="unit.value">{{unit.name}}</mat-option>
+          }
+        </mat-select>
+        @if (form.get("unit")?.invalid){
+        <mat-error>You must select a unit</mat-error>
+        }
+      </mat-form-field>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <mat-card class="example-card" appearance="outlined">
+      <mat-card-header>
+        <mat-card-title>Frequency</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <h3>Days</h3>
+        <mat-chip-listbox
+          aria-label="Days of week"
+          multiple
+          formControlName="days"
+        >
+          @for (day of days; track day) {
+          <mat-chip-option>{{day}}</mat-chip-option>
+          }
+        </mat-chip-listbox>
+        @if (submitted&& form.get('days')?.invalid) {
+        <mat-error>At least one day should be selected.</mat-error>
+        }
+
+        <h3>Time</h3>
+        <div formArrayName="timeFrequency">
+          @for (item of timeFrequency.controls; track $index; let i=$index) {
+          <div>
+            <mat-form-field appearance="outline" class="time">
+              <mat-label>Time</mat-label>
+              <input
+                matInput
+                id="time{{i}}"
+                placeholder="Time..."
+                [formControlName]="i"
+                type="time"
+              />
+              @if (i>0) {
+              <button
+                matSuffix
+                mat-icon-button
+                aria-label="Clear"
+                (click)="removeTime(i)"
+              >
+                <mat-icon>close</mat-icon>
+              </button>
+              } @if (timeFrequency.invalid) {
+              <mat-error>At least one time frequency is required.</mat-error>
+              }
+            </mat-form-field>
+          </div>
+          }
+        </div>
+        @if (form.get('timeFrequency')?.errors?.['duplicateTimes']) {
+        <mat-error> Duplicate times are not allowed. </mat-error>
+        }
+        <button
+          class="add-time"
+          type="button"
+          mat-button
+          (click)="handleAddTime()"
+        >
+          +Add time
+        </button>
+      </mat-card-content>
+    </mat-card>
+    <div class="button-container">
+      <button mat-stroked-button type="button" (click)="onCancel()">
+        Cancel
+      </button>
+      <button mat-flat-button>Add</button>
+    </div>
+  </form>
+</mat-dialog-content>
